@@ -7,8 +7,7 @@
     "start": "node app.js",
     "server": "nodemon app.js",
     "client": "npm run start --prefix client",
-    "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run client\" ",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run client\" "
   },
   "author": "Pavlo Butovets <p.butovets@gmail.com>",
   "license": "ISC",
