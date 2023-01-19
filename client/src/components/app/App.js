@@ -1,17 +1,24 @@
 import { useState, useEffect } from 'react';
 import Spinner from "../spinner/Spinner";
 import Heading from '../heading/Heading';
+import ButtonGroup from '../buttonGroup/ButtonGroup';
 import SyrveCloudService from "../../services/syrveCloudServise";
-import M from 'materialize-css';
+// import M from 'materialize-css';
 
 
 function App() {
 	/*surveCloud token */
 	const [token, setToken] = useState(null)
+
 	/*храним organizations data */
 	const [organizations, setOrganizations] = useState(null)
+
 	/*закончилась ли загрузка данных */
 	const [loading, setLoading] = useState(true);
+
+	/* ID видимой на карте организации 
+	Если null, то будут показаны курьеры всех организаций */
+	const [visbleOrganization, setVisibleOrganization] = useState(null);
 
 	/*Чтобы убрать спиннер загрузки*/
 	const onLoaded = () => {
@@ -32,16 +39,20 @@ function App() {
 	};
 
 	/*work with organisation list*/
-	const onOrganisationsRefreshed = (data) => {
+	const onOrganizationsRefreshed = (data) => {
 		setOrganizations(data);
 		onLoaded();
 	};
 
-	const refreshOrganisations = () => {
+	const refreshOrganizations = () => {
 		syrveCloud.organizations(token)
 			.then((result) => result.json())
-			.then((data) => onOrganisationsRefreshed(data));
+			.then((data) => onOrganizationsRefreshed(data.organizations));
 	}
+
+
+
+	/***** WORKFLOW HERE *****/
 
 	/*когда рендерится компонент*/
 	useEffect(() => {
@@ -55,12 +66,20 @@ function App() {
 	/*когда обновился токен */
 	useEffect(() => {
 		/* 2. обновляем инфу по организациям*/
-		if (token) { refreshOrganisations(token) }
+		if (token) { refreshOrganizations(token) }
 	}, [token])
 
+	/* когда обновилась инфа по организациям */
+	/*получаем заказы для всех организаций*/
+
+
+	/***** RETURN HERE *****/
 	return (
 		<div className="App">
-			{loading ? <Spinner /> : <View />}
+			{loading ? <Spinner /> : <View
+				organizations={organizations}
+				setVisibleOrganization={setVisibleOrganization}
+			/>}
 		</div>
 	);
 }
@@ -68,6 +87,7 @@ function App() {
 const View = (props) => {
 
 	// const { terminals, setVisibleTerminal, couriers, visbleTerminal, token, actualOrders, allOrders } = props;
+	const { organizations, setVisibleOrganization } = props;
 
 	return (
 		<>
@@ -75,6 +95,10 @@ const View = (props) => {
 				title="GPS tracking app"
 				subtitle="GPS tracking app"
 				icon="location_on"
+			/>
+			<ButtonGroup
+				organizations={organizations}
+				setVisibleOrganization={setVisibleOrganization}
 			/>
 		</>
 	)
