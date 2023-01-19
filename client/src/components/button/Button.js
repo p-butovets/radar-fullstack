@@ -1,12 +1,24 @@
 import { useEffect, useState, useRef } from 'react';
+import config from '../../data/common.conf.json'
 import './button.scss';
 
 const Button = (props) => {
     const [isActive, setActive] = useState()
 
-    const { id, text, active, addNewRefToRefs, toggleActiveClass, setVisibleOrganization } = props;
+    /*Тут храним лат и лонг организации, чтобы по клику на кнопку установить mapCenter */
+    const [location, setLocation] = useState(null)
+
+    const { organizations, id, text, active, addNewRefToRefs, toggleActiveClass, setVisibleOrganization, setMapCenter } = props;
 
     const buttonRef = useRef(null);
+
+    const getOrganizationLocation = (id) => {
+        for (let i in organizations) {
+            if (organizations[i].id === id) {
+                return [organizations[i].latitude, organizations[i].longitude]
+            }
+        }
+    }
 
     /* Когда создался элемент*/
     useEffect(() => {
@@ -16,6 +28,9 @@ const Button = (props) => {
         // 2. установить isActive из props
         setActive(active)
         // eslint-disable-next-line
+
+        //3. определяем и устанвливаем локейшн
+        setLocation(getOrganizationLocation(id))
     }, [])
 
     return (
@@ -25,6 +40,7 @@ const Button = (props) => {
             onClick={() => {
                 toggleActiveClass(buttonRef);
                 setVisibleOrganization(id);
+                setMapCenter(location ? location : config.DEFAULT_MAP_CENTER);
             }}
         >
             {text}

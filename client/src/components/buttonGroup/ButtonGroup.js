@@ -5,7 +5,7 @@ import './buttonGroup.scss';
 
 const ButtonGroup = (props) => {
     /*получаем список терминалов доставки */
-    const { organizations, setVisibleOrganization } = props;
+    const { organizations, setVisibleOrganization, setMapCenter } = props;
 
     /*Хранятся рефы кнопок, чтобы снимать className active */
     const [buttonRefs, setButtonsRefs] = useState([])
@@ -35,6 +35,8 @@ const ButtonGroup = (props) => {
                     active={false}
                     setVisibleOrganization={setVisibleOrganization}
                     toggleActiveClass={toggleActiveClass}
+                    setMapCenter={setMapCenter}
+                    organizations={organizations}
                 />
         );
     });
@@ -52,6 +54,8 @@ const ButtonGroup = (props) => {
                 active={true}
                 setVisibleOrganization={setVisibleOrganization}
                 toggleActiveClass={toggleActiveClass}
+                setMapCenter={setMapCenter}
+                organizations={organizations}
             />
             {buttons}
         </section>

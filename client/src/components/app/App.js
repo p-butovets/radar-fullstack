@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import Spinner from "../spinner/Spinner";
 import Heading from '../heading/Heading';
 import ButtonGroup from '../buttonGroup/ButtonGroup';
+import Map from "../map/Map";
 import SyrveCloudService from "../../services/syrveCloudServise";
+import config from '../../data/common.conf.json'
 // import M from 'materialize-css';
 
 
@@ -19,6 +21,9 @@ function App() {
 	/* ID видимой на карте организации 
 	Если null, то будут показаны курьеры всех организаций */
 	const [visbleOrganization, setVisibleOrganization] = useState(null);
+
+	/*по дефолту центр карты по Киеву */
+	const [mapCenter, setMapCenter] = useState(config.DEFAULT_MAP_CENTER);
 
 	/*Чтобы убрать спиннер загрузки*/
 	const onLoaded = () => {
@@ -76,10 +81,13 @@ function App() {
 	/***** RETURN HERE *****/
 	return (
 		<div className="App">
-			{loading ? <Spinner /> : <View
-				organizations={organizations}
-				setVisibleOrganization={setVisibleOrganization}
-			/>}
+			{loading ? <Spinner /> :
+				<View
+					organizations={organizations}
+					setVisibleOrganization={setVisibleOrganization}
+					mapCenter={mapCenter}
+					setMapCenter={setMapCenter}
+				/>}
 		</div>
 	);
 }
@@ -87,7 +95,7 @@ function App() {
 const View = (props) => {
 
 	// const { terminals, setVisibleTerminal, couriers, visbleTerminal, token, actualOrders, allOrders } = props;
-	const { organizations, setVisibleOrganization } = props;
+	const { organizations, setVisibleOrganization, mapCenter, setMapCenter } = props;
 
 	return (
 		<>
@@ -99,6 +107,10 @@ const View = (props) => {
 			<ButtonGroup
 				organizations={organizations}
 				setVisibleOrganization={setVisibleOrganization}
+				setMapCenter={setMapCenter}
+			/>
+			<Map
+				mapCenter={mapCenter}
 			/>
 		</>
 	)

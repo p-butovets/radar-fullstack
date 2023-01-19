@@ -1,5 +1,9 @@
 {
     "IGNORED_ORGANIZATIONS": [
         "d9c2439d-1e02-4ac2-96c0-599d2869fc08"
+    ],
+    "DEFAULT_MAP_CENTER": [
+        50.4374731495035,
+        30.51346447588832
     ]
 }
