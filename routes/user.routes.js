@@ -45,7 +45,7 @@ router.post(
                 "gps-tracker",
                 { expiresIn: '1h' }
             )
-            res.json({ token, userId: user.id })
+            res.json({ token, userId: user.id, admin: user.isAdmin })
 
         } catch (error) {
             res.status(500).json({ message: `Server error [${error}]` });
