@@ -1,8 +1,7 @@
-import React from 'react';
 import { useState, useContext } from 'react';
 import { useFormik } from 'formik';
 import ApiService from '../../services/apiService';
-import { LoginContext } from '../../context/LoginContext';
+import { CommonContext } from '../../context/CommonContext';
 import M from 'materialize-css';
 import './loginPage.scss';
 
@@ -11,7 +10,7 @@ const LoginPage = () => {
     const [disabledBtn, setDisabledBtn] = useState('');
 
     const apiService = new ApiService();
-    const context = useContext(LoginContext);
+    const context = useContext(CommonContext);
 
     const handleSubmit = (value) => {
         setDisabledBtn('disabled');

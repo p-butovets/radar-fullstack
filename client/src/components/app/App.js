@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { useRoutes } from '../../routes';
-import { LoginContext } from '../../context/LoginContext';
+import { CommonContext } from '../../context/CommonContext';
 import useLogin from '../../hooks/login.hooks';
 import Spinner from "../spinner/Spinner";
 import Heading from '../heading/Heading';
@@ -17,11 +17,11 @@ function App() {
 	const isAuthenticated = !!userToken;
 	const routes = useRoutes(isAuthenticated, isAdmin);
 	return (
-		<LoginContext.Provider value={{ login, userToken, userId, isAdmin, isAuthenticated }}>
+		<CommonContext.Provider value={{ login, userToken, userId, isAdmin, isAuthenticated }}>
 			<Router>
 				{routes}
 			</Router>
-		</LoginContext.Provider>
+		</CommonContext.Provider>
 	)
 
 	// /*surveCloud token */

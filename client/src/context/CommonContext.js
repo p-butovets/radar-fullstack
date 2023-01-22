@@ -2,7 +2,7 @@ import { createContext } from "react";
 
 function noop() { }
 
-export const LoginContext = createContext({
+export const CommonContext = createContext({
     userToken: null,
     userId: null,
     login: noop,
