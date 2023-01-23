@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
+import M from 'materialize-css';
 
 const userData = 'userData'
 
@@ -15,6 +16,14 @@ function useLogin() {
         localStorage.setItem(userData, JSON.stringify({ userToken, isAdmin, userId }))
     }, []);
 
+    const logout = useCallback(() => {
+        setUserToken(null);
+        setIsAdmin(null);
+        setUserId(null);
+        localStorage.removeItem(userData);
+        M.toast({ html: "👋😢 Logout success" });
+    }, []);
+
     useEffect(() => {
         const data = JSON.parse(localStorage.getItem(userData));
         if (data && data.userToken) {
@@ -22,7 +31,7 @@ function useLogin() {
         }
     }, [login])
 
-    return { login, userToken, userId, isAdmin };
+    return { login, logout, userToken, userId, isAdmin };
 }
 
 export default useLogin;
