@@ -9,15 +9,14 @@ import ButtonGroup from '../buttonGroup/ButtonGroup';
 import Map from "../map/Map";
 import SyrveCloudService from "../../services/syrveCloudService";
 import config from '../../data/common.conf.json'
-// import M from 'materialize-css';
 
 
 function App() {
-	const { login, userToken, userId, isAdmin } = useLogin();
+	const { login, logout, userToken, userId, isAdmin } = useLogin();
 	const isAuthenticated = !!userToken;
 	const routes = useRoutes(isAuthenticated, isAdmin);
 	return (
-		<CommonContext.Provider value={{ login, userToken, userId, isAdmin, isAuthenticated }}>
+		<CommonContext.Provider value={{ login, logout, userToken, userId, isAdmin, isAuthenticated }}>
 			<Router>
 				{routes}
 			</Router>
