@@ -6,6 +6,7 @@ export const CommonContext = createContext({
     userToken: null,
     userId: null,
     login: noop,
-    isAmin: null,
-    isAuthenticated: false
+    logout: noop,
+    isAdmin: null,
+    isAuthenticated: false,
 })
