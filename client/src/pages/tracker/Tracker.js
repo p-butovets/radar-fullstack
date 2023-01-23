@@ -1,11 +1,19 @@
-import React from 'react';
+import { useState, useContext } from 'react';
+import { CommonContext } from '../../context/CommonContext';
+import Heading from '../../components/heading/Heading';
+import './tracker.scss';
 
-function Tracker(props) {
+const Tracker = () => {
+
+    const context = useContext(CommonContext)
+
     return (
-        <div>
-            Tracker
-        </div>
-    );
+        <Heading
+            title="GPS tracking app"
+            subtitle="GPS tracking app"
+            icon="location_on"
+        />
+    )
 }
 
 export default Tracker;
