@@ -12,6 +12,16 @@ class ApiService extends Component {
         return response
     }
 
+    register = async (data) => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: data
+        };
+        const response = await fetch('/admin/register', requestOptions)
+        return response
+    }
+
 }
 
 export default ApiService;
