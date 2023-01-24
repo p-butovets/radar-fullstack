@@ -57,7 +57,7 @@ const Admin = () => {
                         className="btn"
                         type="submit"
                         name="action">
-                        <i className="material-icons">add_circle_outline</i>
+                        <i className="material-icons button-i">add_circle_outline</i>
                     </button>
                 </div>
             </form>

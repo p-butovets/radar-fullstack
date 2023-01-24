@@ -61,7 +61,7 @@ const LoginPage = () => {
                     type="submit"
                     name="action">
                     login
-                    <i className="material-icons right">send</i>
+                    <i className="material-icons right white button-i">send</i>
                 </button>
             </div>
         </div>
