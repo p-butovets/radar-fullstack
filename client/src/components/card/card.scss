@@ -1,0 +1,26 @@
+@import "../../style/variables.scss";
+
+.card {
+	&-wrapper {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 15px 0;
+	}
+	&-box {
+		width: 90%;
+		height: 90%;
+		box-shadow: $shadow;
+		border-radius: 0.5em;
+	}
+	&-title {
+		background-color: $action-color;
+		border-radius: 0.5em 0.5em 0 0;
+		padding: 3px 10px;
+		color: #fff;
+		font-weight: 800;
+	}
+	&-content {
+		padding: 10px 10px;
+	}
+}
