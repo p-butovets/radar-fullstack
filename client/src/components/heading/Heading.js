@@ -15,18 +15,14 @@ const Heading = (props) => {
 
     return (
         <header className='header'>
-            <div className="header_logo">
-                <div className="header_title">
-                    <i className="small material-icons">{icon}</i>
-                    {title}
-                </div>
-                <div className="header_subtitle">{subtitle}</div>
-            </div>
-            <div className="header_buttons">
+            <a className="header_title" href="/">{title}</a>
+            <div className="header_links">
                 {context.isAdmin ?
                     <i title="Settings" onClick={clickHandler} className="small material-icons pressable">settings</i>
                     : null}
-                <i title="Logout" onClick={context.logout} className="small material-icons pressable">exit_to_app</i>
+                {context.isAuthenticated ?
+                    <i title="Logout" onClick={context.logout} className="small material-icons pressable">exit_to_app</i>
+                    : null}
             </div>
         </header>
     )

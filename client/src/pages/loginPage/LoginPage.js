@@ -33,31 +33,37 @@ const LoginPage = () => {
         onSubmit: values => handleSubmit(JSON.stringify(values, null, 2))
     })
 
-
     return (
-        <div className="form-wrapper">
-            <div className="form-heading">
-                Hello
-            </div>
-            <form className="form" onSubmit={formik.handleSubmit}>
-                <input
-                    id='login'
-                    name='login'
-                    type='text'
-                    placeholder='Username'
-                    value={formik.values.login}
-                    onChange={formik.handleChange} />
-                <input
-                    id='password'
-                    name='password'
-                    type='password'
-                    placeholder='Password'
-                    value={formik.values.password}
-                    onChange={formik.handleChange} />
-                <button className={`btn waves-effect waves-light ${disabledBtn}`} type="submit" name="action">login
+        <div className="login_page">
+            <div className="login_form-wrapper">
+                <h1 className='title'>Hello</h1>
+                <form className="login_form">
+                    <input
+                        className='login_form-input'
+                        id='login'
+                        name='login'
+                        type='text'
+                        placeholder='Username'
+                        value={formik.values.login}
+                        onChange={formik.handleChange} />
+                    <input
+                        className='login_form-input'
+                        id='password'
+                        name='password'
+                        type='password'
+                        placeholder='Password'
+                        value={formik.values.password}
+                        onChange={formik.handleChange} />
+                </form>
+                <button
+                    onClick={formik.handleSubmit}
+                    className={`btn waves-effect waves-light ${disabledBtn}`}
+                    type="submit"
+                    name="action">
+                    login
                     <i className="material-icons right">send</i>
                 </button>
-            </form>
+            </div>
         </div>
     );
 }

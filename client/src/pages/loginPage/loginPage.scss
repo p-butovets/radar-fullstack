@@ -1,21 +1,35 @@
 @import "../../style/variables.scss";
 
-.form {
-	width: 40%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	gap: 8px;
-	&-wrapper {
-		height: 100vh;
+.login {
+	&_page {
+		background: $unactive-color;
+		width: 100%;
+		height: 90vh;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 	}
-	&-heading {
-		font-weight: 800;
-		font-size: 32px;
+	&_form {
+		&-wrapper {
+			height: 300px;
+			width: 80%;
+			max-width: 300px;
+			background: #fff;
+			box-shadow: $shadow;
+			border-radius: 0.5em;
+
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+			gap: 20px;
+		}
+		&-input {
+			display: block;
+			text-align: center;
+			font-weight: 700;
+			color: $font-color !important;
+		}
 	}
 }

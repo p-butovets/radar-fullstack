@@ -19,10 +19,18 @@ li {
 	list-style: none;
 }
 
-section,
-header,
-footer {
+.title {
+	font-size: 28px;
+	font-weight: 800;
+	color: $font-color;
+}
+
+.subtitle {
+	text-align: center;
 	padding: 5px 15px;
+	font-weight: 800;
+	color: #fff;
+	background-color: $font-color;
 }
 
 //for every icon in project, that are works like buttons

@@ -8,11 +8,9 @@ const Tracker = () => {
     const context = useContext(CommonContext)
 
     return (
-        <Heading
-            title="GPS tracking app"
-            subtitle="GPS tracking app"
-            icon="location_on"
-        />
+        <>
+            tracker
+        </>
     )
 }
 

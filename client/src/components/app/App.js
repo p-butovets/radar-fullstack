@@ -3,8 +3,12 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { useRoutes } from '../../routes';
 import { CommonContext } from '../../context/CommonContext';
 import useLogin from '../../hooks/login.hooks';
-import Spinner from "../spinner/Spinner";
+
 import Heading from '../heading/Heading';
+import Footer from '../footer/Footer';
+
+import Spinner from "../spinner/Spinner";
+
 import ButtonGroup from '../buttonGroup/ButtonGroup';
 import Map from "../map/Map";
 import SyrveCloudService from "../../services/syrveCloudService";
@@ -18,6 +22,7 @@ function App() {
 	return (
 		<CommonContext.Provider value={{ login, logout, userToken, userId, isAdmin, isAuthenticated }}>
 			<Router>
+				<Heading title="Courier Tracking" />
 				{routes}
 			</Router>
 		</CommonContext.Provider>
