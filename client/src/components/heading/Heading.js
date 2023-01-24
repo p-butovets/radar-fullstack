@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { CommonContext } from '../../context/CommonContext';
 import './heading.scss';
@@ -7,7 +7,7 @@ const Heading = (props) => {
     const context = useContext(CommonContext);
     const navigate = useNavigate();
 
-    const { title, subtitle, icon } = props;
+    const { title } = props;
 
     const clickHandler = () => {
         navigate('/admin')
