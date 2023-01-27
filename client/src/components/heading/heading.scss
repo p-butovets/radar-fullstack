@@ -13,4 +13,21 @@
 		font-weight: 800;
 		color: $font-color;
 	}
+	&_links {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+}
+
+.userlogin {
+	font-weight: 700;
+	padding: 0 7px;
+	border-right: 1px solid $unactive-color;
+}
+
+@media (max-width: 525px) {
+	.userlogin {
+		display: none;
+	}
 }
