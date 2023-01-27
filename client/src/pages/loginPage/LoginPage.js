@@ -44,6 +44,7 @@ const LoginPage = () => {
                         name='login'
                         type='text'
                         placeholder='Username'
+                        autoComplete="on"
                         value={formik.values.login}
                         onChange={formik.handleChange} />
                     <input
@@ -52,6 +53,7 @@ const LoginPage = () => {
                         name='password'
                         type='password'
                         placeholder='Password'
+                        autoComplete="on"
                         value={formik.values.password}
                         onChange={formik.handleChange} />
                 </form>
