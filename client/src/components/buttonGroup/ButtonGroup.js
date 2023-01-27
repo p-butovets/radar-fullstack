@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { TrackerContext } from '../../context/TrackerContext';
 import Button from '../button/Button';
 import config from '../../data/common.conf.json'
 import './buttonGroup.scss';
 
-const ButtonGroup = (props) => {
-    /*получаем список терминалов доставки */
-    const { organizations, setVisibleOrganization, setMapCenter } = props;
+const ButtonGroup = () => {
+    const context = useContext(TrackerContext);
 
     /*Хранятся рефы кнопок, чтобы снимать className active */
     const [buttonRefs, setButtonsRefs] = useState([])
@@ -23,7 +23,7 @@ const ButtonGroup = (props) => {
     }
 
     /*Формируем кнопку для каждого теминала доставки */
-    const buttons = organizations.map((i) => {
+    const buttons = context.organizations.map((i) => {
         /*если айди организации не в списке игнорируемых*/
         return (
             config.IGNORED_ORGANIZATIONS.includes(i.id) ? null :
@@ -33,15 +33,10 @@ const ButtonGroup = (props) => {
                     text={i.name}
                     addNewRefToRefs={addNewRefToRefs}
                     active={false}
-                    setVisibleOrganization={setVisibleOrganization}
                     toggleActiveClass={toggleActiveClass}
-                    setMapCenter={setMapCenter}
-                    organizations={organizations}
                 />
         );
     });
-
-
 
     return (
         <section className="btn-warpper">
@@ -52,10 +47,7 @@ const ButtonGroup = (props) => {
                 text="Всі кур'єри"
                 addNewRefToRefs={addNewRefToRefs}
                 active={true}
-                setVisibleOrganization={setVisibleOrganization}
                 toggleActiveClass={toggleActiveClass}
-                setMapCenter={setMapCenter}
-                organizations={organizations}
             />
             {buttons}
         </section>

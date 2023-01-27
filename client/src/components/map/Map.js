@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useContext } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
+import { TrackerContext } from '../../context/TrackerContext';
 import './map.scss';
 
 import React from 'react';
 
-function Map(props) {
+function Map() {
 
-    const { mapCenter } = props;
+    const { mapCenter } = useContext(TrackerContext);
 
     return (
         <MapContainer scrollWheelZoom={true}>

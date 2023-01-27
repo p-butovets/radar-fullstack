@@ -1,16 +1,20 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
+import { TrackerContext } from '../../context/TrackerContext';
 import config from '../../data/common.conf.json'
 import './button.scss';
 
 const Button = (props) => {
-    const [isActive, setActive] = useState()
+
+    const { id, text, active, addNewRefToRefs, toggleActiveClass } = props;
+
+    const { organizations, setShowOrganizationID, setMapCenter } = useContext(TrackerContext);
+
+    const buttonRef = useRef(null);
+
+    const [isActive, setActive] = useState();
 
     /*Тут храним лат и лонг организации, чтобы по клику на кнопку установить mapCenter */
     const [location, setLocation] = useState(null)
-
-    const { organizations, id, text, active, addNewRefToRefs, toggleActiveClass, setVisibleOrganization, setMapCenter } = props;
-
-    const buttonRef = useRef(null);
 
     const getOrganizationLocation = (id) => {
         for (let i in organizations) {
@@ -31,6 +35,7 @@ const Button = (props) => {
 
         //3. определяем и устанвливаем локейшн
         setLocation(getOrganizationLocation(id))
+        // eslint-disable-next-line
     }, [])
 
     return (
@@ -39,7 +44,7 @@ const Button = (props) => {
             className={`button ${isActive ? 'button-active' : ''}`}
             onClick={() => {
                 toggleActiveClass(buttonRef);
-                setVisibleOrganization(id);
+                setShowOrganizationID(id);
                 setMapCenter(location ? location : config.DEFAULT_MAP_CENTER);
             }}
         >
