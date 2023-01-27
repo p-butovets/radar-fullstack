@@ -22,6 +22,25 @@ class ApiService extends Component {
         return response
     }
 
+    getallusers = async () => {
+        const requestOptions = {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        };
+        const response = await fetch('/admin/getallusers', requestOptions)
+        return response
+    }
+
+    deleteUser = async (data) => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: data
+        };
+        const response = await fetch('/admin/deleteuser', requestOptions)
+        return response
+    }
+
 }
 
 export default ApiService;
