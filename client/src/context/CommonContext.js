@@ -8,5 +8,8 @@ export const CommonContext = createContext({
     login: noop,
     logout: noop,
     isAdmin: null,
+    userLogin: null,
     isAuthenticated: false,
+    refreshUsers: noop,
+    deleteUser: noop
 })
