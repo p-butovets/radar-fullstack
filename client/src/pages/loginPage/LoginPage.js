@@ -19,7 +19,7 @@ const LoginPage = () => {
             .then((data) => {
                 M.toast({ html: `${data.message}` });
                 if (data.token) {
-                    context.login(data.token, data.isAdmin, data.userId)
+                    context.login(data.token, data.isAdmin, data.userId, data.userLogin)
                 }
             });
         setDisabledBtn('');
