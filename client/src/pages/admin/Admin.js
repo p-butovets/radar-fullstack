@@ -1,5 +1,8 @@
+import { useState, useEffect, useContext } from 'react';
 import { useFormik } from 'formik';
+import { CommonContext } from '../../context/CommonContext';
 import Card from '../../components/card/Card';
+import UserList from '../../components/userList/UserList';
 import ApiService from '../../services/apiService';
 import M from 'materialize-css';
 import './admin.scss';
@@ -7,12 +10,40 @@ import './admin.scss';
 const Admin = () => {
 
     const apiService = new ApiService();
+    const context = useContext(CommonContext);
 
-    const handleSubmit = (value) => {
+    const [users, setUsers] = useState([]);
+
+    //получает всех юзеров из БД и устанваливает в стейт
+    const refreshUsers = () => {
+        apiService.getallusers()
+            .then((result) => result.json())
+            .then((data) => setUsers(data));
+    }
+
+    //удаляет юзера по логину из БД и вызывает onUserChanged
+    const deleteUser = (login) => {
+        apiService.deleteUser(JSON.stringify({ login: login }))
+            .then((result) => result.json())
+            .then((data) => onUserChanged(data));
+    }
+
+    //урегистрирует юзера в БД по данным из формы и вызывает onUserChanged
+    const registerUser = (value) => {
         apiService.register(value)
             .then((result) => result.json())
-            .then((data) => M.toast({ html: `${data.message}` }));
+            .then((data) => onUserChanged(data));
     }
+
+    //показывает тост с ответом сервера об изменениях и вызывает обновление стейта юзеров
+    const onUserChanged = (data) => {
+        M.toast({ html: `${data.message}` });
+        refreshUsers();
+    }
+
+    // добавляем в контекст функцию удаления юзера
+    context.deleteUser = deleteUser;
+
 
     const formik = useFormik({
         initialValues: {
@@ -20,8 +51,15 @@ const Admin = () => {
             password: '',
             isAdmin: false
         },
-        onSubmit: values => handleSubmit(JSON.stringify(values, null, 2))
+        onSubmit: values => registerUser(JSON.stringify(values, null, 2))
     })
+
+
+    // когда первый рендер, получаем всех юзеров из БД
+    useEffect(() => {
+        refreshUsers();
+        // eslint-disable-next-line
+    }, [])
 
     return (
         <>
@@ -62,6 +100,9 @@ const Admin = () => {
                         </button>
                     </div>
                 </form>
+            </Card>
+            <Card cardTitle={"Manage users"}>
+                <UserList users={users} />
             </Card>
         </>
     )
