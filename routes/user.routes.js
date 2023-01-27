@@ -52,9 +52,44 @@ router.post(
                 token,
                 userId: user.id,
                 isAdmin: user.isAdmin,
-                message: '💪 Login successful'
+                message: '💪 Login successful',
+                userLogin: user.login
             })
 
+        } catch (error) {
+            res.status(500).json({ message: `😧 Server error [${error}]` });
+        }
+    });
+
+// admin/getallusers
+router.get(
+    '/getallusers', async (req, res) => {
+        try {
+            const users = await User.find({})
+            if (!users) {
+                return res.status(400).json({ message: '👀 Users not found' });
+            }
+            res.status(200).send(users);
+
+        } catch (error) {
+            res.status(500).json({ message: `😧 Server error [${error}]` });
+        }
+    });
+
+// admin/deleteuser
+router.post(
+    '/deleteuser',
+    async (req, res) => {
+        const login = req.body.login;
+        try {
+            //get user from mongo to user
+            const user = await User.findOne({ login });
+            if (!user) {
+                return res.status(400).json({ message: '👀 User not found' });
+            }
+            //remove user from mongo
+            await User.deleteOne({ login: login });
+            res.status(200).json({ message: `👀 User ${login} deleted` });
         } catch (error) {
             res.status(500).json({ message: `😧 Server error [${error}]` });
         }
