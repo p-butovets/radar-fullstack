@@ -16,11 +16,11 @@ import config from '../../data/common.conf.json'
 
 
 function App() {
-	const { login, logout, userToken, userId, isAdmin } = useLogin();
+	const { login, logout, userToken, userId, isAdmin, userLogin } = useLogin();
 	const isAuthenticated = !!userToken;
 	const routes = useRoutes(isAuthenticated, isAdmin);
 	return (
-		<CommonContext.Provider value={{ login, logout, userToken, userId, isAdmin, isAuthenticated }}>
+		<CommonContext.Provider value={{ login, logout, userToken, userId, isAdmin, isAuthenticated, userLogin }}>
 			<Router>
 				<Heading title="Courier Tracking" />
 				{routes}
