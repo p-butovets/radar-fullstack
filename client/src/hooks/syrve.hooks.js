@@ -60,7 +60,11 @@ const useSyrve = () => {
     /*1. on first render*/
     useEffect(() => {
         refreshToken();
-        setInterval(() => refreshToken(), 20000);
+        const interval = setInterval(() => refreshToken(), 20000);
+
+        return () => {
+            clearInterval(interval);
+        };
     }, []);
 
     /*2. when syrveToken upd */
