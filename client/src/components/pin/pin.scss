@@ -1,0 +1,24 @@
+@import "../../style/variables.scss";
+
+.courier {
+	&__name {
+		font-weight: 700;
+		font-size: 1.2em;
+	}
+	&__route-toggler {
+		display: block;
+		color: $primary-color;
+		min-width: 93%;
+		border-radius: 7px;
+		border: solid 1px $primary-color;
+		padding: 9px 5px;
+		text-align: center;
+		cursor: pointer;
+	}
+}
+
+.sessions {
+	margin-top: 2rem;
+	border-radius: 12px;
+	position: relative;
+}

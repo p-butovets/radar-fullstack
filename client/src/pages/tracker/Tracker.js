@@ -11,10 +11,13 @@ import './tracker.scss';
 
 const Tracker = () => {
 
-    const { syrveToken, organizations, loading } = useSyrve();
+    const { syrveToken, organizations, orders, couriers, loading } = useSyrve();
 
     /*по дефолту центр карты по Киеву */
     const [mapCenter, setMapCenter] = useState(config.DEFAULT_MAP_CENTER);
+
+    /*дефолтный зум карты*/
+    const [mapZoomLevel, setMapZoomLevel] = useState(11);
 
     /*отображать курьеров этой организации */
     const [showOrganizationID, setShowOrganizationID] = useState(null);
@@ -25,9 +28,13 @@ const Tracker = () => {
             syrveToken,
             mapCenter,
             setMapCenter,
+            mapZoomLevel,
+            setMapZoomLevel,
             organizations,
+            couriers,
+            orders,
             showOrganizationID,
-            setShowOrganizationID
+            setShowOrganizationID,
         }}>
             {loading ? <Spinner /> : <View />}
         </TrackerContext.Provider>

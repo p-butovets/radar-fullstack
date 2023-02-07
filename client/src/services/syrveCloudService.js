@@ -26,6 +26,26 @@ class SyrveCloudService extends Component {
         const response = await fetch(`/api/couriers`, requestOptions);
         return response
     }
+
+    orders = async (token, organizationIDs) => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token, organizationIDs })
+        };
+        const response = await fetch(`/api/orders`, requestOptions);
+        return response
+    }
+
+    employee = async (token, organizationId, employeeId) => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token, organizationId, employeeId })
+        };
+        const response = await fetch(`/api/employee`, requestOptions);
+        return response
+    }
 }
 
 export default SyrveCloudService;
