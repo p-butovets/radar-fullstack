@@ -30,6 +30,10 @@ const useSyrve = () => {
     /*это костыль, который заставляет обновиться карте сразу после превого обновления курьеров */
     const [upd, setUpd] = useState(false);
 
+    /*tick запускаем обновление тика при первом рендере
+    стави его в зависисмоть для обновления orders*/
+    const [tick, setTick] = useState(true);
+
 
     /***** METHODS HERE *****/
     /*обрабока ошибок */
@@ -171,7 +175,12 @@ const useSyrve = () => {
     const refreshOrders = (token, ids) => {
         syrveCloud.orders(token, ids)
             .then((result) => result.json())
-            .then((data) => onOrdersRefreshed(data.ordersByOrganizations))
+            .then((data) => {
+                data.errorDescription ?
+                    M.toast({ html: `<i class="material-icons white">portable_wifi_off</i> Lost connection with iiko/Syrve. Wait` })
+                    :
+                    onOrdersRefreshed(data.ordersByOrganizations)
+            })
             .catch(error => handleError(error));
     }
 
@@ -198,37 +207,36 @@ const useSyrve = () => {
     /*1. on first render*/
     useEffect(() => {
         refreshToken();
-        const interval = setInterval(() => refreshToken(), 20000);
+        const interval = setInterval(() => {
+            setTick(tick => !tick)
+        }, 20000);
 
         return () => {
             clearInterval(interval);
         };
     }, []);
 
-    /*2. when syrveToken upd */
     useEffect(() => {
         if (syrveToken) {
             refreshOrganizations(syrveToken);
         }
     }, [syrveToken]);
 
-    /*3/  */
     useEffect(() => {
         if (syrveToken && organizations) {
             const ids = collectOrgIds(organizations);
             refreshOrders(syrveToken, ids);
         }
-    }, [organizations])
+    }, [organizations, tick]);
 
-    /*4. when orders upd */
+
     useEffect(() => {
         if (syrveToken && organizations) {
             const ids = collectOrgIds(organizations);
             refreshCouriersData(syrveToken, ids)
         }
-    }, [orders])
+    }, [orders]);
 
-    /*5 when  CouriersData refreshed*/
     useEffect(() => {
         clearOrders(couriers);
         updateCouriersOnDuty(orders, organizations, couriersData);
