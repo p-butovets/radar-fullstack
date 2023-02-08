@@ -87,6 +87,7 @@ router.post('/orders', async (req, res) => {
                     ]
                 })
             };
+            console.log(`${process.env.SYRVECLOUD_URL}deliveries/by_delivery_date_and_status`, requestOptions)
             fetch(`${process.env.SYRVECLOUD_URL}deliveries/by_delivery_date_and_status`, requestOptions)
                 .then((result) => result.json())
                 .then((data) => res.status(200).json(data));
