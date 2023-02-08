@@ -81,7 +81,7 @@ const useSyrve = () => {
 
     /*work with couriers */
 
-    const refreshCouriersData = (token, ids) => {
+    const getLatestLocations = (token, ids) => {
         syrveCloud.couriers(token, ids)
             .then((result) => result.json())
             .then((data) => onCouriresDataRefreshed(data.activeCourierLocations))
@@ -176,10 +176,14 @@ const useSyrve = () => {
         syrveCloud.orders(token, ids)
             .then((result) => result.json())
             .then((data) => {
-                data.errorDescription ?
-                    M.toast({ html: `<i class="material-icons white">portable_wifi_off</i> Lost connection with iiko/Syrve. Wait` })
-                    :
+                /*если заказы успешно обновились, то onOrdersRefreshed, 
+                иначе тост и обновляем только локейшн getLatestLocations*/
+                if (data.errorDescription) {
+                    const ids = collectOrgIds(organizations);
+                    getLatestLocations(syrveToken, ids);
+                } else {
                     onOrdersRefreshed(data.ordersByOrganizations)
+                }
             })
             .catch(error => handleError(error));
     }
@@ -216,12 +220,15 @@ const useSyrve = () => {
         };
     }, []);
 
+    /*2. on syrveToken updated*/
     useEffect(() => {
         if (syrveToken) {
             refreshOrganizations(syrveToken);
         }
     }, [syrveToken]);
 
+    /*3. Обновление заказов происходит когда обновились организации, 
+    после первого рендера - по "тику" */
     useEffect(() => {
         if (syrveToken && organizations) {
             const ids = collectOrgIds(organizations);
@@ -229,14 +236,18 @@ const useSyrve = () => {
         }
     }, [organizations, tick]);
 
-
+    /*если заказы обновились успешно - getLatestLocations
+    если обновление fail, то там, где fail делаем getLatestLocations.
+    так обновяться только локейшены, заказы обновяться позже
+    */
     useEffect(() => {
         if (syrveToken && organizations) {
             const ids = collectOrgIds(organizations);
-            refreshCouriersData(syrveToken, ids)
+            getLatestLocations(syrveToken, ids)
         }
     }, [orders]);
 
+    /*обновились getLatestLocations - обновляем курьеров */
     useEffect(() => {
         clearOrders(couriers);
         updateCouriersOnDuty(orders, organizations, couriersData);
