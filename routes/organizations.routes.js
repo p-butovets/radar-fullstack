@@ -13,8 +13,6 @@ const getToday = (date) => {
     return `${year}-${month}-${day}`
 }
 
-let today = getToday(new Date());
-
 
 // /api/organizations
 router.post('/organizations', async (req, res) => {
@@ -74,6 +72,7 @@ router.post('/couriers', async (req, res) => {
 // /api/orders
 router.post('/orders', async (req, res) => {
     const { token, organizationIDs } = req.body;
+    const today = getToday(new Date());
     try {
         if (!token || !organizationIDs || organizationIDs.length === 0) {
             res.status(403).json({ message: 'token and organizationIDs is required' });
@@ -99,6 +98,7 @@ router.post('/orders', async (req, res) => {
                     ]
                 })
             };
+            console.log(`[${new Date().toLocaleTimeString()}] today: ${today}`)
             fetch(`${process.env.SYRVECLOUD_URL}deliveries/by_delivery_date_and_status`, requestOptions)
                 .then((result) => result.json())
                 .then((data) => res.status(200).json(data));
