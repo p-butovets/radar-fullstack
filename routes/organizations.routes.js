@@ -101,11 +101,13 @@ router.post('/orders', async (req, res) => {
             console.log(`[${new Date().toLocaleTimeString()}] today: ${today}`)
             fetch(`${process.env.SYRVECLOUD_URL}deliveries/by_delivery_date_and_status`, requestOptions)
                 .then((result) => result.json())
-                .then((data) => res.status(200).json(data));
+                .then((data) => res.status(200).json(data))
+                .catch(error => console.log(error));
         }
 
     } catch (err) {
-        res.status(500).json({ message: "Что-то пошло не так" })
+        console.log(err)
+        res.status(500).json({ message: "Что-то пошло не так", errorDescription: err })
     }
 })
 
