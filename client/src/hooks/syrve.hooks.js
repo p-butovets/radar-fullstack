@@ -151,7 +151,7 @@ const useSyrve = () => {
         for (let i in orders) {
             const { organizationId, order } = orders[i];
             /*если доставка курьером и у заказа назначен курьер */
-            if (order.orderType.id === config.ORDER_TYPE_ID && order.courierInfo) {
+            if (order.orderType.orderServiceType === config.ORDER_TYPE && order.courierInfo) {
                 const { id, name, phone } = order.courierInfo.courier;
                 /*ищем координаты курьера */
                 const { latitude, longitude } = getCourierLocation(id, couriersData);

@@ -6,5 +6,9 @@
         50.4374731495035,
         30.51346447588832
     ],
-    "ORDER_TYPE_ID": "76067ea3-356f-eb93-9d14-1fa00d082c4e"
+    "ORDER_TYPE_IDS": [
+        "f7d0a1ef-283f-4a9d-99e9-62e2f0fb7a0c",
+        "9264eab7-8e39-4424-a48e-4d00bd43127f"
+    ],
+    "ORDER_TYPE": "DeliveryByCourier"
 }
