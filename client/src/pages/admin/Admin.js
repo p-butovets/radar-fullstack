@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useFormik } from 'formik';
 import { CommonContext } from '../../context/CommonContext';
+import { Helmet } from "react-helmet";
 import Card from '../../components/card/Card';
 import UserList from '../../components/userList/UserList';
 import ApiService from '../../services/apiService';
@@ -63,6 +64,10 @@ const Admin = () => {
 
     return (
         <>
+            <Helmet>
+                <meta name="description" content="Admin | Logistic Management App" />
+                <title>Admin | MisoMove</title>
+            </Helmet>
             <Card cardTitle={"Add new user"}>
                 <form
                     onSubmit={formik.handleSubmit}
