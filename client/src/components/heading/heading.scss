@@ -21,7 +21,10 @@
 }
 
 .userlogin {
-	font-weight: 700;
+	font-weight: 700 !important;
+	font-size: 11px;
+	color: $line-color;
+	font-weight: 500;
 	padding: 0 7px;
 	border-right: 1px solid $unactive-color;
 }
