@@ -13,7 +13,7 @@ function App() {
 	return (
 		<CommonContext.Provider value={{ login, logout, userToken, userId, isAdmin, isAuthenticated, userLogin }}>
 			<Router>
-				<Heading title="Courier Tracking" />
+				<Heading />
 				{routes}
 			</Router>
 		</CommonContext.Provider>

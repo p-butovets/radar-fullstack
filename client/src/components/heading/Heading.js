@@ -1,13 +1,12 @@
 import { useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { CommonContext } from '../../context/CommonContext';
+import Logo from '../logo/Logo';
 import './heading.scss';
 
-const Heading = (props) => {
+const Heading = () => {
     const context = useContext(CommonContext);
     const navigate = useNavigate();
-
-    const { title } = props;
 
     const clickHandler = () => {
         navigate('/admin')
@@ -15,7 +14,7 @@ const Heading = (props) => {
 
     return (
         <header className='header'>
-            <a className="header_title" href="/">{title}</a>
+            <Logo />
             <div className="header_links">
                 <div className="userlogin blue-text text-darken-2">
                     {context.userLogin}
