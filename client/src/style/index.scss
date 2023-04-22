@@ -45,3 +45,40 @@ li {
 	color: #fff;
 	background-color: transparent !important;
 }
+
+.sup-badge {
+	font-size: 8px;
+	background: $primary-color;
+	color: #fff !important;
+	border-radius: 2px;
+	padding: 2px 3px;
+	margin-left: 2px;
+}
+
+/* стили для боковой полосы прокрутки в Chrome и Safari */
+::-webkit-scrollbar {
+	width: 2px;
+}
+
+::-webkit-scrollbar-track {
+	background-color: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: $action-color;
+	border-radius: 5px;
+}
+
+/* стили для боковой полосы прокрутки в Firefox */
+::-moz-scrollbar {
+	width: 2px;
+}
+
+::-moz-scrollbar-track {
+	background-color: #f1f1f1;
+}
+
+::-moz-scrollbar-thumb {
+	background-color: $action-color;
+	border-radius: 5px;
+}
