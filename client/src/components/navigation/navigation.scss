@@ -1,0 +1,17 @@
+@import "../../style/variables.scss";
+
+.nav {
+	font-weight: 700;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1em;
+	&__item {
+		color: $line-color;
+	}
+}
+
+.active.nav__item {
+	font-weight: 700;
+	color: $action-color;
+}
