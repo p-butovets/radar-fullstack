@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { TrackerContext } from '../../context/TrackerContext';
+import { Helmet } from "react-helmet";
 import useSyrve from '../../hooks/syrve.hooks';
 
 import Spinner from '../../components/spinner/Spinner';
@@ -45,6 +46,10 @@ const View = () => {
 
     return (
         <>
+            <Helmet>
+                <meta name="description" content="Tracker | Logistic Management App" />
+                <title>Tracker | MisoMove</title>
+            </Helmet>
             <ButtonGroup />
             <Map />
         </>
