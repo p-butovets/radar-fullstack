@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Tracker from './pages/tracker/Tracker';
 import Admin from './pages/admin/Admin';
 import LoginPage from './pages/loginPage/LoginPage';
+import Dashboard from './pages/dashboard/Dashboard';
 
 export const useRoutes = (isAuthenticated, isAdmin) => {
     // user routes
@@ -21,6 +22,7 @@ export const useRoutes = (isAuthenticated, isAdmin) => {
             <Routes>
                 <Route path='/tracker' element={<Tracker />} />
                 <Route path='/admin' element={<Admin />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="*" element={<Tracker />} />
             </Routes>
         )
