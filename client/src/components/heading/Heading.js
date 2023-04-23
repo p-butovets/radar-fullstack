@@ -46,10 +46,15 @@ const Heading = () => {
                 </div>
             </header>
 
+            <div className={`overlay ${openSlide ? "slided" : ''}`}></div>
+
             <div
-                className={`slide-menu ${openSlide ? "slided" : ''}`}>
-                zdrdzb
+                className={`slide-menu ${openSlide ? "slided" : ''}`}
+                onClick={() => setOpenSlide(!openSlide)}>
+                <i title="Close" id="close-icon" onClick={() => setOpenSlide(!openSlide)} className="material-icons pressable">close</i>
+                <Navigation />
             </div>
+
         </>
 
     )

@@ -4,7 +4,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 5px 10px;
+	padding: $header-padding;
 	background: #fff;
 	box-shadow: $shadow;
 	&_title {
@@ -20,7 +20,7 @@
 	}
 	&_mob {
 		display: none;
-		padding: 5px 10px;
+		padding: $header-padding;
 		background: #fff;
 		box-shadow: $shadow;
 	}
@@ -42,13 +42,37 @@
 	height: 100vh;
 	position: absolute;
 	top: 0;
-	left: -100%; /* изменено значение */
-	z-index: 1001;
-	transition: left 0.3s ease; /* добавлено свойство transition */
+	left: -100%;
+	z-index: 1002;
+	transition: $transition;
+	padding: 10px 20px;
 }
 
 .slided.slide-menu {
 	left: 0;
+}
+
+.overlay {
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: rgba(17, 17, 26, 0.7);
+	display: none;
+	z-index: 1001;
+	opacity: 1;
+	transition: $transition;
+}
+
+.slided.overlay {
+	display: block;
+}
+
+#close-icon {
+	position: absolute;
+	top: 0;
+	right: 0;
 }
 
 @media (max-width: 525px) {
