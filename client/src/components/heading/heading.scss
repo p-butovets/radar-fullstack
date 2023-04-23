@@ -18,6 +18,12 @@
 		justify-content: center;
 		align-items: center;
 	}
+	&_mob {
+		display: none;
+		padding: 5px 10px;
+		background: #fff;
+		box-shadow: $shadow;
+	}
 }
 
 .userlogin {
@@ -29,8 +35,33 @@
 	border-right: 1px solid $unactive-color;
 }
 
+.slide-menu {
+	display: none;
+	background: #fff;
+	width: 200px;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: -100%; /* изменено значение */
+	z-index: 1001;
+	transition: left 0.3s ease; /* добавлено свойство transition */
+}
+
+.slided.slide-menu {
+	left: 0;
+}
+
 @media (max-width: 525px) {
-	.userlogin {
+	.header {
 		display: none;
+		&_mob {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+	}
+
+	.slide-menu {
+		display: block;
 	}
 }
