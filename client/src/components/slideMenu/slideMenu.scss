@@ -1,0 +1,67 @@
+@import "../../style/variables.scss";
+
+.slide-menu {
+	display: none;
+	background: #fff;
+	width: 200px;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: -100%;
+	z-index: 1002;
+	transition: $transition;
+	padding: 10px 20px;
+	&__footer {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: flex-start;
+		padding: 10px;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		background-color: #f1f1f1;
+		border-top: 1px solid #ccc;
+		&-item {
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			height: 3em;
+			cursor: pointer;
+		}
+	}
+}
+
+.slided.slide-menu {
+	left: 0;
+}
+
+.overlay {
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: rgba(17, 17, 26, 0.7);
+	display: none;
+	z-index: 1001;
+	opacity: 1;
+	transition: $transition;
+}
+
+.slided.overlay {
+	display: block;
+}
+
+#close-icon {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+@media (max-width: 525px) {
+	.slide-menu {
+		display: block;
+	}
+}
