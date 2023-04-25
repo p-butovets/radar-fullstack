@@ -1,20 +1,15 @@
-@mixin bg-pattern {
-	background: radial-gradient(circle, transparent 25%, #ffffff 26%),
-		linear-gradient(
-			0deg,
-			transparent 44%,
-			#ececf1 45%,
-			#ececf1 55%,
-			transparent 56%
-		),
-		linear-gradient(
-			90deg,
-			transparent 44%,
-			#ececf1 45%,
-			#ececf1 55%,
-			transparent 56%
-		);
-	background-size: 6em 6em;
-	background-color: #ffffff;
-	opacity: 0.45;
+@import "./variables.scss";
+
+@mixin c-block {
+	background: $bg-color;
+	border-radius: 10px;
+	padding: 10px 20px;
+	// margin: 1em 0;
+	border: 1px solid darken($bg-color, 5%);
+	width: 300px;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: start;
 }

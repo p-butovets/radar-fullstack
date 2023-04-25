@@ -1,14 +1,15 @@
-import { useState, useEffect, useContext } from 'react';
-import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
+import { useContext } from 'react';
+import { MapContainer, TileLayer } from 'react-leaflet';
 import { TrackerContext } from '../../context/TrackerContext';
 import Pin from '../pin/Pin';
+import config from '../../data/common.conf.json';
 import './map.scss';
 
 import React from 'react';
 
 function Map() {
 
-    const { mapCenter, couriers } = useContext(TrackerContext);
+    const { couriers } = useContext(TrackerContext);
 
     const pins = [];
 
@@ -38,39 +39,17 @@ function Map() {
     }
 
     return (
-        <MapContainer scrollWheelZoom={true} center={mapCenter} zoom={11}>
-            {/* <ChangeView center={mapCenter} zoom={11} /> */}
+        <MapContainer scrollWheelZoom={true}
+            center={config.DEFAULT_MAP_CENTER}
+            zoom={11}>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {/* <MapZoomer /> */}
             {pins}
         </MapContainer>
     );
 }
 
-
-
-/*trying to add mapSenter changer */
-/*компонент для смены вида карты
-только через него можно сменить центр карты*/
-const ChangeView = ({ center, zoom }) => {
-    const map = useMap();
-    map.setView(center, zoom);
-    return null;
-}
-
-function MapZoomer() {
-    const { mapZoomLevel, setMapZoomLevel } = useContext(TrackerContext);
-
-    const mapEvents = useMapEvents({
-        zoomend: () => {
-            setMapZoomLevel(mapEvents.getZoom());
-        },
-    });
-    console.log(mapZoomLevel);
-    return null
-}
 
 export default Map;

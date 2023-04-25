@@ -1,7 +1,8 @@
-import { useState, useEffect, useContext } from 'react';
+import { useSelector } from 'react-redux';
+
+import { useState, useEffect } from 'react';
 import { Marker, Popup } from 'react-leaflet';
 import * as ReactDOMServer from 'react-dom/server';
-import { TrackerContext } from '../../context/TrackerContext';
 import CustomMarker from '../customMarker/CustomMarker';
 import OrderBlock from '../orderBlock/OrderBlock';
 import RoutingMachine from '../routingMachine/RoutingMachine';
@@ -11,9 +12,9 @@ import './pin.scss';
 
 const Pin = (props) => {
 
-    const { organizationId, latitude, longitude, orders, name, phone, baseLocation } = props;
+    const { showCouriers } = useSelector(state => state.tracker);
 
-    const { showOrganizationID } = useContext(TrackerContext);
+    const { organizationId, latitude, longitude, orders, name, phone, baseLocation } = props;
 
     //видимость маршрута
     const [showRoute, setShowRoute] = useState(false);
@@ -67,7 +68,7 @@ const Pin = (props) => {
 
     return (
         <>
-            {!showOrganizationID || organizationId === showOrganizationID ?
+            {showCouriers === 'all' || organizationId === showCouriers ?
                 <Marker
                     icon={divIcon({
                         className: "custom icon",

@@ -17,7 +17,7 @@ const Navigation = () => {
                     </NavLink>
                     <NavLink to="/dashboard"
                         className="nav__item"
-                        activeClassName="active">Dashboard<sup className='sup-badge'>new</sup>
+                        activeClassName="active">Dashboard<sup className='sup-badge'>demo</sup>
                     </NavLink>
                 </div> : null}
         </>

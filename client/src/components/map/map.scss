@@ -1,6 +1,8 @@
+@import "../../style/variables.scss";
+
 .leaflet-container {
 	width: 100%;
-	height: 70vh;
+	height: calc(100vh - $header-height);
 }
 
 // втупую отключил подробности

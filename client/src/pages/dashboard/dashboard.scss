@@ -1,1 +1,37 @@
 @import "../../style/variables.scss";
+@import "../../style/mixins.scss";
+
+.board {
+	&__heading {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		padding-bottom: 1em;
+	}
+	&__filters {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 10px;
+	}
+}
+
+.c-block {
+	@include c-block;
+}
+
+@media (max-width: 525px) {
+	.board {
+		&__heading {
+			flex-direction: column;
+		}
+	}
+}
+
+.f-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 1em;
+}

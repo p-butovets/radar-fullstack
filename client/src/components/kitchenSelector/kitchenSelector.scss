@@ -1,0 +1,36 @@
+@import "../../style/variables.scss";
+
+.k-selector {
+	background-color: $bg-color;
+	color: $font-color;
+	border: none;
+	border-radius: 5px;
+	padding: 10px;
+	font-size: 14px;
+	box-shadow: $shadow;
+	transition: $transition;
+	&:hover {
+		background-color: lighten($bg-color, 5%);
+	}
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px $primary-color;
+	}
+	&__option {
+		background-color: $bg-color;
+		color: $font-color;
+		border: none;
+		border-radius: 4px;
+		padding: 10px;
+		font-size: 14px;
+		box-shadow: $shadow;
+		transition: $transition;
+		&:hover {
+			background-color: lighten($bg-color, 5%) !important;
+		}
+		&:focus {
+			outline: none !important;
+			box-shadow: 0 0 0 2px $primary-color !important;
+		}
+	}
+}
