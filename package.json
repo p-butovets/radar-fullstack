@@ -1,7 +1,7 @@
 {
-  "name": "radar-fullstack",
+  "name": "MisoMove",
   "version": "1.0.2",
-  "description": "",
+  "description": "MisoMove - Logistic Manager App | In this version implemented the courier tracker and demo section with dashboard",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
