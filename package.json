@@ -1,7 +1,7 @@
 {
   "name": "MisoMove",
-  "version": "1.0.2",
-  "description": "MisoMove - Logistic Manager App | In this version implemented the courier tracker and demo section with dashboard",
+  "version": "2.0.0",
+  "description": "MisoMove - Logistic Manager App | In this version implemented the section with dashboard",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
