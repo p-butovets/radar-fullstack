@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet";
 import { useState } from 'react';
 
-import { DatePicker, Space, Button } from 'antd';
+import { Divider, DatePicker, Space, Button } from 'antd';
 
 import { format } from "date-fns";
 
@@ -72,23 +72,31 @@ const Dashboard = () => {
 
             <div className="f-container container">
                 <div className="c-block">
-                    <h6 className="fw700">Х1 Херсон</h6>
+                    <Divider>
+                        <div className="fw700">Х1 Херсон</div>
+                    </Divider>
                     <Doughnut data={data} />
                 </div>
 
                 <div className="c-block">
-                    <h6 className="fw700">Я7 Ялта</h6>
+                    <Divider>
+                        <div className="fw700">Я6 Ялта</div>
+                    </Divider>
                     <Doughnut data={data} />
                 </div>
 
                 <div className="c-block">
-                    <h6 className="fw700">С1 Симферополь</h6>
+                    <Divider>
+                        <div className="fw700">С1 Сімферополь</div>
+                    </Divider>
                     <Doughnut data={data} />
                 </div>
 
 
                 <div className="c-block">
-                    <h6 className="fw700">Б1 Белгород</h6>
+                    <Divider>
+                        <div className="fw700">Б2 Белгород</div>
+                    </Divider>
                     <Doughnut data={data} />
                 </div>
             </div>
