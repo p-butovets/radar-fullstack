@@ -1,5 +1,10 @@
 import { Helmet } from "react-helmet";
 import { useState } from 'react';
+
+import { DatePicker, Space, Button } from 'antd';
+
+import { format } from "date-fns";
+
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import './dashboard.scss';
@@ -7,20 +12,15 @@ import './dashboard.scss';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Dashboard = () => {
+    const { RangePicker } = DatePicker;
+    const today = format(new Date(), "yyyy-MM-dd");
 
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(today);
+    const [endDate, setEndDate] = useState(today);
 
-    const handleStartDateChange = (event) => {
-        const value = event.target.value;
-        const date = new Date(value);
-        setStartDate(date);
-    };
-
-    const handleEndDateChange = (event) => {
-        const value = event.target.value;
-        const date = new Date(value);
-        setEndDate(date);
+    const handleRangeChange = (dates, dateStrings) => {
+        setStartDate(dateStrings[0])
+        setEndDate(dateStrings[1])
     };
 
     const data = {
@@ -59,22 +59,13 @@ const Dashboard = () => {
                         Statuses duration
                     </h5>
                     <div className="board__filters font ">
-                        <input
-                            type="date"
-                            name="startdate"
-                            // value={formattedDate}
-                            onChange={handleStartDateChange}
-                        />
-                        <input
-                            type="date"
-                            name="enddate"
-                            // value={formattedDate}
-                            onChange={handleEndDateChange}
-                        />
-                        <div
+                        <RangePicker
+                            placeholder={[startDate, endDate]}
+                            onChange={handleRangeChange}
+                            onOk={handleRangeChange} />
+                        <Button
                             onClick={() => console.log(startDate, endDate)}
-                            className="btn">submit
-                        </div>
+                        >count</Button>
                     </div>
                 </div>
             </div>
