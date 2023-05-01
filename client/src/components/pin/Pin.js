@@ -12,9 +12,14 @@ import './pin.scss';
 
 const Pin = (props) => {
 
-    const { showCouriers } = useSelector(state => state.tracker);
+    const { showKitchen, showCouriers } = useSelector(state => state.tracker);
 
-    const { organizationId, latitude, longitude, orders, name, phone, baseLocation } = props;
+    const { organizationId, latitude, longitude, orders, name, phone, baseLocation, id } = props;
+
+    if (showCouriers === id) {
+        console.log(showCouriers, id)
+    }
+
 
     //видимость маршрута
     const [showRoute, setShowRoute] = useState(false);
@@ -68,7 +73,7 @@ const Pin = (props) => {
 
     return (
         <>
-            {showCouriers === 'all' || organizationId === showCouriers ?
+            {showCouriers === id || showKitchen === organizationId || showKitchen === showCouriers ?
                 <Marker
                     icon={divIcon({
                         className: "custom icon",
