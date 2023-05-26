@@ -1,50 +1,50 @@
 import { Helmet } from "react-helmet";
-import { useState } from 'react';
-
-import { Divider, DatePicker, Space, Button } from 'antd';
-
-import { format } from "date-fns";
-
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { DatePicker, Space, Button } from 'antd';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
+import DgramBlock from "../../components/dgramBlock/DgramBlock";
+import Spinner from '../../components/spinner/Spinner';
+import useSyrve from '../../hooks/syrve.hooks';
+import {
+    countingStart,
+    countingEnd,
+    setStartDate,
+    setEndDate
+} from './dashboardSlice';
 import './dashboard.scss';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Dashboard = () => {
+    const dispatch = useDispatch();
     const { RangePicker } = DatePicker;
-    const today = format(new Date(), "yyyy-MM-dd");
 
-    const [startDate, setStartDate] = useState(today);
-    const [endDate, setEndDate] = useState(today);
+    const { countingStatus, startDate, endDate } = useSelector(state => state.dashboard);
+    const { syrveToken, organizations } = useSyrve();
+    const [diagrams, setDiagrams] = useState(null);
+    const [selectedDates, setSelectedDates] = useState({ start: startDate, end: endDate });
+
+    const buildDiagrams = (from, to) => {
+        const diagrams = organizations ? organizations.map(({ name, id }) => {
+            return <DgramBlock id={id} name={name} from={from} to={to} key={id} />
+        }) : null
+        return diagrams
+    }
 
     const handleRangeChange = (dates, dateStrings) => {
-        setStartDate(dateStrings[0])
-        setEndDate(dateStrings[1])
+        setSelectedDates({ start: dateStrings[0], end: dateStrings[1] });
     };
 
-    const data = {
-        labels: ['Operator', 'Kitchen', 'Waiting', 'Delivery'],
-        datasets: [
-            {
-                label: 'Avg minutes',
-                data: [12, 19, 3, 5.6,],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                ],
-                borderWidth: 1,
-            },
-        ],
+    const handleCountClick = () => {
+        const newDiagrams = buildDiagrams(selectedDates.start, selectedDates.end);
+        setDiagrams(newDiagrams);
     };
+
+    /*когда пдтянется список организаций, для каждой строим диаграмму на сегодня */
+    useEffect(() => {
+        handleCountClick()
+    }, [organizations])
 
     return (
         <>
@@ -55,50 +55,22 @@ const Dashboard = () => {
             <div className="container">
                 <div className="board__heading">
                     <h5 className="fw700">
-                        <i class="Small material-icons c-action">insert_chart</i>
+                        <i className="Small material-icons c-action">insert_chart</i>
                         Statuses duration
                     </h5>
                     <div className="board__filters font ">
                         <RangePicker
                             placeholder={[startDate, endDate]}
                             onChange={handleRangeChange}
-                            onOk={handleRangeChange} />
-                        <Button
-                            onClick={() => console.log(startDate, endDate)}
-                        >count</Button>
+                            onOk={handleRangeChange}
+                        />
+                        <Button onClick={handleCountClick}>count</Button>
                     </div>
                 </div>
             </div>
 
             <div className="f-container container">
-                <div className="c-block">
-                    <Divider>
-                        <div className="fw700">Х1 Херсон</div>
-                    </Divider>
-                    <Doughnut data={data} />
-                </div>
-
-                <div className="c-block">
-                    <Divider>
-                        <div className="fw700">Я6 Ялта</div>
-                    </Divider>
-                    <Doughnut data={data} />
-                </div>
-
-                <div className="c-block">
-                    <Divider>
-                        <div className="fw700">С1 Сімферополь</div>
-                    </Divider>
-                    <Doughnut data={data} />
-                </div>
-
-
-                <div className="c-block">
-                    <Divider>
-                        <div className="fw700">Б2 Белгород</div>
-                    </Divider>
-                    <Doughnut data={data} />
-                </div>
+                {diagrams ? diagrams : <Spinner />}
             </div>
         </>
     )

@@ -1,8 +1,24 @@
 @import "../../style/variables.scss";
 
 .logo {
-	display: block;
-	font-size: 20px;
-	font-weight: 800;
-	color: $font-color;
+	height: 100%;
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	gap: 10px;
+	&__img {
+		height: 60%;
+	}
+	&__text {
+		display: block;
+		font-size: 20px;
+		font-weight: 800;
+		color: $font-color;
+	}
+}
+
+@media (max-width: 525px) {
+	.logo__img {
+		display: none;
+	}
 }
