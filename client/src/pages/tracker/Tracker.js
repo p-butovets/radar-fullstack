@@ -1,6 +1,6 @@
 import { TrackerContext } from '../../context/TrackerContext';
 import { Helmet } from "react-helmet";
-import useSyrve from '../../hooks/syrve.hooks';
+import useTracking from '../../hooks/tracking.hooks';
 
 import Spinner from '../../components/spinner/Spinner';
 import Map from '../../components/map/Map';
@@ -10,7 +10,7 @@ import './tracker.scss';
 
 const Tracker = () => {
 
-    const { syrveToken, organizations, orders, couriers, loading } = useSyrve();
+    const { syrveToken, organizations, orders, couriers, loading } = useTracking();
 
     return (
         <TrackerContext.Provider value={{
