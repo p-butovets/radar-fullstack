@@ -61,7 +61,8 @@ router.post('/couriers', async (req, res) => {
             };
             fetch(`${process.env.SYRVECLOUD_URL}employees/couriers/active_location`, requestOptions)
                 .then((result) => result.json())
-                .then((data) => res.status(200).json(data));
+                .then((data) => res.status(200).json(data))
+                .catch(error => console.log("error courier"));
         }
 
     } catch (err) {
@@ -102,7 +103,7 @@ router.post('/orders', async (req, res) => {
             fetch(`${process.env.SYRVECLOUD_URL}deliveries/by_delivery_date_and_status`, requestOptions)
                 .then((result) => result.json())
                 .then((data) => res.status(200).json(data))
-                .catch(error => console.log(error));
+                .catch(error => console.log("error orders"));
         }
 
     } catch (err) {

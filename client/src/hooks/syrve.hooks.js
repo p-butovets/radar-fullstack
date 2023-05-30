@@ -20,7 +20,6 @@ const useSyrve = () => {
         switch (error.name) {
             case 'SyntaxError':
                 M.toast({ html: `Please, reload app ${error.message}` });
-                console.log(source)
                 break;
             default:
                 M.toast({ html: `Unknown error. Please, reload app` });
@@ -36,7 +35,7 @@ const useSyrve = () => {
         syrveCloud.authorize()
             .then((result) => result.json())
             .then((data) => onTokenRefreshed(data.token))
-            .catch(error => handleError(error, 'refreshToken'));
+            .catch(error => handleError(error));
     }, []);
 
     /*work with organisation list*/
@@ -48,7 +47,7 @@ const useSyrve = () => {
         syrveCloud.organizations(syrveToken)
             .then((result) => result.json())
             .then((data) => onOrganizationsRefreshed(data.organizations))
-            .catch(error => handleError(error, 'refreshOrganizations'));
+            .catch(error => handleError(error));
     }, []);
 
     const collectOrgIds = (data) => {
