@@ -69,7 +69,7 @@ const useSyrve = () => {
         }
     }, [syrveToken]);
 
-    return { syrveToken, organizations };
+    return { syrveToken, refreshToken, organizations };
 
 }
 

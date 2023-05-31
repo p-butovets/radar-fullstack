@@ -9,7 +9,7 @@ const useTracking = () => {
     /* экземпляр сервиса SyrveCloud*/
     const syrveCloud = new SyrveCloudService();
 
-    const { syrveToken, organizations } = useSyrve();
+    const { syrveToken, refreshToken, organizations } = useSyrve();
 
     /* актуальные заказы */
     const [orders, setOrders] = useState(null);
@@ -156,7 +156,10 @@ const useTracking = () => {
                     onOrdersRefreshed(data.ordersByOrganizations)
                 }
             })
-            .catch(error => handleError(error));
+            .catch(error => {
+                handleError(error)
+                refreshToken()
+            });
     }
 
     /** transform orders */
