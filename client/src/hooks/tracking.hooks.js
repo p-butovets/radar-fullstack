@@ -151,14 +151,15 @@ const useTracking = () => {
                 иначе тост и обновляем только локейшн getLatestLocations*/
                 if (data.errorDescription) {
                     const ids = collectOrgIds(organizations);
+                    refreshToken();
                     getLatestLocations(syrveToken, ids);
                 } else {
                     onOrdersRefreshed(data.ordersByOrganizations)
                 }
             })
             .catch(error => {
-                handleError(error)
-                refreshToken()
+                handleError(error);
+                refreshToken();
             });
     }
 
