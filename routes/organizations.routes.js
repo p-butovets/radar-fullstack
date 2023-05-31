@@ -13,8 +13,6 @@ const getToday = (date) => {
     return `${year}-${month}-${day}`
 }
 
-const today = getToday(new Date());
-
 // /api/organizations
 router.post('/organizations', async (req, res) => {
     try {
@@ -31,10 +29,10 @@ router.post('/organizations', async (req, res) => {
                 body: JSON.stringify({
                     "organizationIds": [],
                     "returnAdditionalInfo": true,
-                    "includeDisabled": true
+                    "includeDisabled": false
                 })
             };
-            console.log(`POST /organizations [${new Date().toLocaleTimeString()} ${today}]`)
+            console.log(`POST /organizations [${new Date().toLocaleTimeString()}]`)
             fetch(`${process.env.SYRVECLOUD_URL}organizations`, requestOptions)
                 .then((result) => result.json())
                 .then((data) => res.status(200).json(data));
@@ -61,7 +59,7 @@ router.post('/couriers', async (req, res) => {
                 },
                 body: JSON.stringify({ "organizationIds": organizationIDs })
             };
-            console.log(`POST /couriers [${new Date().toLocaleTimeString()} ${today}]`)
+            console.log(`POST /couriers [${new Date().toLocaleTimeString()}]`)
             fetch(`${process.env.SYRVECLOUD_URL}employees/couriers/active_location`, requestOptions)
                 .then((result) => result.json())
                 .then((data) => res.status(200).json(data))
@@ -76,6 +74,7 @@ router.post('/couriers', async (req, res) => {
 // /api/orders
 router.post('/orders', async (req, res) => {
     const { token, organizationIDs } = req.body;
+    const today = getToday(new Date());
     try {
         if (!token || !organizationIDs || organizationIDs.length === 0) {
             res.status(403).json({ message: 'token and organizationIDs is required' });
@@ -101,7 +100,7 @@ router.post('/orders', async (req, res) => {
                     ]
                 })
             };
-            console.log(`POST /orders [${new Date().toLocaleTimeString()} ${today}]`)
+            console.log(`POST /orders [${new Date().toLocaleTimeString()}]`)
             fetch(`${process.env.SYRVECLOUD_URL}deliveries/by_delivery_date_and_status`, requestOptions)
                 .then((result) => result.json())
                 .then((data) => res.status(200).json(data))
