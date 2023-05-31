@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const router = Router();
+const axios = require('axios');
 require('dotenv').config();
 
 
@@ -78,42 +79,43 @@ router.post('/orders', async (req, res) => {
     try {
         if (!token || !organizationIDs || organizationIDs.length === 0) {
             res.status(403).json({ message: 'token and organizationIDs is required' });
-        }
-        else {
-            const requestOptions = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json;',
-                    'Authorization': 'Bearer ' + token
-                },
-                body: JSON.stringify({
-                    "organizationIds": organizationIDs,
-                    "deliveryDateFrom": `${today} 00:00:00.000`,
-                    "deliveryDateTo": `${today} 23:59:00.000`,
-                    "statuses": [
-                        "CookingStarted",
-                        "CookingCompleted",
-                        "OnWay",
-                        "Unconfirmed",
-                        "WaitCooking",
-                        "Closed"
-                    ]
-                })
+        } else {
+            const requestData = {
+                organizationIds: organizationIDs,
+                deliveryDateFrom: `${today} 00:00:00.000`,
+                deliveryDateTo: `${today} 23:59:00.000`,
+                statuses: [
+                    "CookingStarted",
+                    "CookingCompleted",
+                    "OnWay",
+                    "Unconfirmed",
+                    "WaitCooking",
+                    "Closed"
+                ]
             };
-            console.log(`POST /orders [${new Date().toLocaleTimeString()}]`)
-            fetch(`${process.env.SYRVECLOUD_URL}deliveries/by_delivery_date_and_status`, requestOptions)
-                .then((result) => result.json())
-                .then((data) => res.status(200).json(data))
-                .catch(error => {
-                    res.status(200).json({ message: "Что-то пошло не так", errorDescription: error })
-                    console.log("error orders")
+
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }
+            };
+
+            console.log(`POST /orders [${new Date().toLocaleTimeString()}]`);
+
+            axios.post(`${process.env.SYRVECLOUD_URL}deliveries/by_delivery_date_and_status`, requestData, config)
+                .then((response) => {
+                    res.status(200).json(response.data);
+                })
+                .catch((error) => {
+                    res.status(200).json({ message: "Что-то пошло не так", errorDescription: error });
+                    console.log("error orders", requestData);
                 });
         }
-
     } catch (err) {
-        console.log(err)
-        res.status(500).json({ message: "Что-то пошло не так", errorDescription: err })
+        console.log(err);
+        res.status(500).json({ message: "Что-то пошло не так", errorDescription: err });
     }
-})
+});
 
 module.exports = router;
