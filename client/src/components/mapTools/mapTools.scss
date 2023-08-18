@@ -5,4 +5,11 @@
 	top: 55px;
 	right: 10px;
 	z-index: 1001;
+	max-width: 14.5em;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: start;
+	gap: 0.5em;
 }

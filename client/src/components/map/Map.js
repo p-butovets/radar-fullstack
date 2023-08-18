@@ -15,6 +15,7 @@ function Map() {
 
     for (let i in couriers) {
         const {
+            id,
             organizationId,
             latitude,
             longitude,
@@ -27,6 +28,7 @@ function Map() {
             pins.push(
                 <Pin
                     key={i}
+                    id={id}
                     organizationId={organizationId}
                     latitude={latitude}
                     longitude={longitude}

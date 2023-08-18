@@ -1,50 +1,50 @@
 import { Helmet } from "react-helmet";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { DatePicker, Space, Button } from 'antd';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
+import DgramBlock from "../../components/dgramBlock/DgramBlock";
+import Spinner from '../../components/spinner/Spinner';
+import useSyrve from '../../hooks/syrve.hooks';
+import {
+    countingStart,
+    countingEnd,
+    setStartDate,
+    setEndDate
+} from './dashboardSlice';
 import './dashboard.scss';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Dashboard = () => {
+    const dispatch = useDispatch();
+    const { RangePicker } = DatePicker;
 
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+    const { countingStatus, startDate, endDate } = useSelector(state => state.dashboard);
+    const { syrveToken, organizations } = useSyrve();
+    const [diagrams, setDiagrams] = useState(null);
+    const [selectedDates, setSelectedDates] = useState({ start: startDate, end: endDate });
 
-    const handleStartDateChange = (event) => {
-        const value = event.target.value;
-        const date = new Date(value);
-        setStartDate(date);
+    const buildDiagrams = (from, to) => {
+        const diagrams = organizations ? organizations.map(({ name, id }) => {
+            return <DgramBlock id={id} name={name} from={from} to={to} key={id} />
+        }) : null
+        return diagrams
+    }
+
+    const handleRangeChange = (dates, dateStrings) => {
+        setSelectedDates({ start: dateStrings[0], end: dateStrings[1] });
     };
 
-    const handleEndDateChange = (event) => {
-        const value = event.target.value;
-        const date = new Date(value);
-        setEndDate(date);
+    const handleCountClick = () => {
+        const newDiagrams = buildDiagrams(selectedDates.start, selectedDates.end);
+        setDiagrams(newDiagrams);
     };
 
-    const data = {
-        labels: ['Operator', 'Kitchen', 'Waiting', 'Delivery'],
-        datasets: [
-            {
-                label: 'Avg minutes',
-                data: [12, 19, 3, 5.6,],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                ],
-                borderWidth: 1,
-            },
-        ],
-    };
+    /*когда пдтянется список организаций, для каждой строим диаграмму на сегодня */
+    useEffect(() => {
+        handleCountClick()
+    }, [organizations])
 
     return (
         <>
@@ -55,51 +55,22 @@ const Dashboard = () => {
             <div className="container">
                 <div className="board__heading">
                     <h5 className="fw700">
-                        <i class="Small material-icons c-action">insert_chart</i>
+                        <i className="Small material-icons c-action">insert_chart</i>
                         Statuses duration
                     </h5>
                     <div className="board__filters font ">
-                        <input
-                            type="date"
-                            name="startdate"
-                            // value={formattedDate}
-                            onChange={handleStartDateChange}
+                        <RangePicker
+                            placeholder={[startDate, endDate]}
+                            onChange={handleRangeChange}
+                            onOk={handleRangeChange}
                         />
-                        <input
-                            type="date"
-                            name="enddate"
-                            // value={formattedDate}
-                            onChange={handleEndDateChange}
-                        />
-                        <div
-                            onClick={() => console.log(startDate, endDate)}
-                            className="btn">submit
-                        </div>
+                        <Button onClick={handleCountClick}>count</Button>
                     </div>
                 </div>
             </div>
 
             <div className="f-container container">
-                <div className="c-block">
-                    <h6 className="fw700">Х1 Херсон</h6>
-                    <Doughnut data={data} />
-                </div>
-
-                <div className="c-block">
-                    <h6 className="fw700">Я7 Ялта</h6>
-                    <Doughnut data={data} />
-                </div>
-
-                <div className="c-block">
-                    <h6 className="fw700">С1 Симферополь</h6>
-                    <Doughnut data={data} />
-                </div>
-
-
-                <div className="c-block">
-                    <h6 className="fw700">Б1 Белгород</h6>
-                    <Doughnut data={data} />
-                </div>
+                {diagrams ? diagrams : <Spinner />}
             </div>
         </>
     )

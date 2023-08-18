@@ -22,19 +22,19 @@ const KitchenSelector = () => {
         <select
             onChange={(e) => dispatch(setKitchenID(e.target.value))}
             className="k-selector">
-            <Option id={"all"} key={"111"} text="Всі кур'єри" />
+            <Option id={"all"} key={"111"} text="Всі кухні" />
             {options}
         </select>
     )
 }
 
 const Option = ({ id, text }) => {
-    const { showCouriers } = useSelector(state => state.tracker);
+    const { showKitchen } = useSelector(state => state.tracker);
     return (
         <option
             className="k-selector__option"
             value={id}
-            selected={id === showCouriers}>
+            selected={id === showKitchen}>
             {text}
         </option>
     )
