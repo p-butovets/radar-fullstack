@@ -1,10 +1,13 @@
 import { useState, useCallback, useEffect } from "react";
 import SyrveCloudService from "../services/syrveCloudService";
+import useCourierLocation from "./courierLocation.hooks";
 import useSyrve from './syrve.hooks';
 import M from 'materialize-css';
 import config from '../data/common.conf.json';
 
 const useTracking = () => {
+
+    const { locationData, fetchCourierLocation, loadingg, error } = useCourierLocation();
 
     /* экземпляр сервиса SyrveCloud*/
     const syrveCloud = new SyrveCloudService();
@@ -99,33 +102,68 @@ const useTracking = () => {
         return ordersArray;
     }
 
-    const getCourierLocation = (id, data) => {
-        const location = {
+    const getCourierLocation = async (id, data) => {
+        let location = {
             latitude: null,
             longitude: null
-        }
-        for (let i in data) {
-            const { items } = data[i];
-            for (let item of items) {
-                const { courierId, lastActiveLatitude, lastActiveLongitude } = item;
-                if (courierId === id) {
-                    location.latitude = lastActiveLatitude;
-                    location.longitude = lastActiveLongitude;
+        };
+
+        try {
+            const dpData = await fetchCourierLocation(id);
+            if (dpData && dpData.location && dpData.location.latitude && dpData.location.longitude) {
+                const latitude = parseFloat(dpData.location.latitude);
+                const longitude = parseFloat(dpData.location.longitude);
+                location = { latitude, longitude };
+                console.log("Courier Location from API:", location);
+            } else {
+                // Если API вернул null или некорректные данные, используем данные из data
+                for (let i in data) {
+                    const { items } = data[i];
+                    for (let item of items) {
+                        const { courierId, lastActiveLatitude, lastActiveLongitude } = item;
+                        if (courierId === id) {
+                            location = {
+                                latitude: lastActiveLatitude,
+                                longitude: lastActiveLongitude
+                            };
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching courier location from API:', error);
+
+            // В случае ошибки используем данные из data
+            for (let i in data) {
+                const { items } = data[i];
+                for (let item of items) {
+                    const { courierId, lastActiveLatitude, lastActiveLongitude } = item;
+                    if (courierId === id) {
+                        location = {
+                            latitude: lastActiveLatitude,
+                            longitude: lastActiveLongitude
+                        };
+                        break;
+                    }
                 }
             }
         }
+
+        console.log(id, location);
         return location;
-    }
+    };
+
 
     /* Обновляет объект айдишниками курьеров у которых уже есть заказы*/
-    const updateCouriersOnDuty = (orders, orgs, couriersData) => {
+    const updateCouriersOnDuty = async (orders, orgs, couriersData) => {
         for (let i in orders) {
             const { organizationId, order } = orders[i];
             /*если доставка курьером и у заказа назначен курьер */
             if (order.orderType.orderServiceType === config.ORDER_TYPE && order.courierInfo) {
                 const { id, name, phone } = order.courierInfo.courier;
                 /*ищем координаты курьера */
-                const { latitude, longitude } = getCourierLocation(id, couriersData);
+                const { latitude, longitude } = await getCourierLocation(id, couriersData);
                 /* обновляем обьект */
                 couriers[id] = {
                     id,
