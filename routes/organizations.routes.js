@@ -17,13 +17,15 @@ const getToday = (date) => {
 // /api/organizations
 router.post('/organizations', async (req, res) => {
     try {
-        if (!req.body.token) {
-            res.status(403).json({ message: 'token is required' });
+        const token = req.body.token || process.env.SYRVECLOUD_API_LOGIN;
+        
+        if (!token) {
+            res.status(403).json({ message: 'SYRVECLOUD_API_LOGIN not configured' });
         } else {
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + req.body.token
+                    'Authorization': 'Bearer ' + token
                 }
             };
 
@@ -52,14 +54,15 @@ router.post('/organizations', async (req, res) => {
 // /api/couriers
 router.post('/couriers', async (req, res) => {
     const { token, organizationIDs } = req.body;
+    const authToken = token || process.env.SYRVECLOUD_API_LOGIN;
     try {
-        if (!token || !organizationIDs || organizationIDs.length === 0) {
-            res.status(403).json({ message: 'token and organizationIDs is required' });
+        if (!authToken || !organizationIDs || organizationIDs.length === 0) {
+            res.status(403).json({ message: 'organizationIDs is required' });
         } else {
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token
+                    'Authorization': 'Bearer ' + authToken
                 }
             };
 
@@ -84,10 +87,11 @@ router.post('/couriers', async (req, res) => {
 // /api/orders
 router.post('/orders', async (req, res) => {
     const { token, organizationIDs } = req.body;
+    const authToken = token || process.env.SYRVECLOUD_API_LOGIN;
     const today = getToday(new Date());
     try {
-        if (!token || !organizationIDs || organizationIDs.length === 0) {
-            res.status(403).json({ message: 'token and organizationIDs is required' });
+        if (!authToken || !organizationIDs || organizationIDs.length === 0) {
+            res.status(403).json({ message: 'organizationIDs is required' });
         } else {
             const requestData = {
                 organizationIds: organizationIDs,
@@ -106,7 +110,7 @@ router.post('/orders', async (req, res) => {
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token
+                    'Authorization': 'Bearer ' + authToken
                 }
             };
 
