@@ -18,7 +18,7 @@ const getToday = (date) => {
 router.post('/organizations', async (req, res) => {
     try {
         const token = req.body.token || process.env.SYRVECLOUD_API_LOGIN;
-        
+
         if (!token) {
             res.status(403).json({ message: 'SYRVECLOUD_API_LOGIN not configured' });
         } else {
