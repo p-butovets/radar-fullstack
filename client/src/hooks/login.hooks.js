@@ -6,7 +6,7 @@ const userData = 'userData'
 function useLogin() {
 
     const [userToken, setUserToken] = useState(null);
-    const [isAdmin, setIsAdmin] = useState(null);
+    const [isAdmin, setIsAdmin] = useState(false);
     const [userId, setUserId] = useState(null);
     const [userLogin, setUserLogin] = useState(null);
 
@@ -20,7 +20,7 @@ function useLogin() {
 
     const logout = useCallback(() => {
         setUserToken(null);
-        setIsAdmin(null);
+        setIsAdmin(false);
         setUserId(null);
         setUserLogin(null)
         localStorage.removeItem(userData);
@@ -31,6 +31,10 @@ function useLogin() {
         const data = JSON.parse(localStorage.getItem(userData));
         if (data && data.userToken) {
             login(data.userToken, data.isAdmin, data.userId, data.userLogin)
+        } else {
+            // Auto-login with public user token
+            const publicToken = 'public-access-token';
+            login(publicToken, false, 'public-user', 'public');
         }
     }, [login])
 
